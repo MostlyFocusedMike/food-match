@@ -1,4 +1,4 @@
-#match-finder #member-opinions, #match-finder #member-opinions .member, #member-section {
+#match-finder #member-opinions, #match-finder #member-opinions .member-opinion, #member-section {
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: space-around;
@@ -23,12 +23,17 @@
     width: 75%;
     height: 5rem;
     margin: 1rem auto; }
-    #match-finder #member-opinions .member {
+    #match-finder #member-opinions .member-opinion {
       border: 2px solid black;
       width: 10rem; }
-      #match-finder #member-opinions .member p {
+      #match-finder #member-opinions .member-opinion .material-icons {
+        margin: .25rem 0 0;
         display: block;
-        width: auto; }
+        height: 1rem;
+        font-size: 1.5rem;
+        pointer-events: none; }
+      #match-finder #member-opinions .member-opinion p {
+        pointer-events: none; }
 
 #member-section {
   border: 2px solid black;

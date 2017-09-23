@@ -29,14 +29,19 @@ $std-border: 2px solid black;
     width: 75%;
     height: 5rem;
     margin: 1rem auto;
-    .member {
+    .member-opinion {
       @extend %basic-flex;
       border: $std-border;
       width: 10rem;
-      p {
+      .material-icons {
+        margin: .25rem 0 0;
         display: block;
-        width: auto;
-
+        height: 1rem;
+        font-size: 1.5rem;
+        pointer-events: none;
+      }
+      p {
+        pointer-events: none;
       }
     }
   }
@@ -70,4 +75,7 @@ $std-border: 2px solid black;
 .like-value-3 {
   background-color: #DF2020;
   color: white;
+}
+
+.material-icons {
 }
