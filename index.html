@@ -1,18 +1,122 @@
 <!DOCTYPE html> 
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=375, initial-scale=1">
-        <meta name="author" content="Mike Cronin">
-        <meta name="description" content="DESCRIPTION">
-        <title>TITLE</title>
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
-    </head>
-    <body>
-        <div id="wrapper">
-        
-        </div>
-        <script src="js/script.js" charset="utf-8"></script>
-    </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mike Cronin">
+  <meta name="description" content="DESCRIPTION">
+  <title>Food Matcher</title>
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+</head>
+<body>
+  <div id="wrapper">
+  <header>
+    <h1 id="logo">Food Matcher</h1>
+  </header>
+
+  <div id="login">
+    <form action="" method="post">
+      <input type="text" name="username" id="username-input" value="Username Here" />
+      <input type="text" name="password" id="password-input" value="Password Here" />
+      <button type="submit" id="user-login">Enter</button>
+    </form>
+  </div>
+  <div id="match-finder">
+    <p>Who likes:</p>
+    <input type="text" name="queryItem" id="query-item" value="Food item here" />
+    <div id="member-opinions">
+      <div class="member like-value-0" id="member-1-opinion">
+        <p>member 1</p>
+        <p class="opinion-glyph">?</p>
+      </div>
+      <div class="member like-value-1" id="member-2-opinion">
+        <p>member 2</p>
+        <p class="opinion-glyph">&#9745;</p>
+      </div>
+      <div class="member like-value-2" id="member-3-opinion">
+        <p>member 3</p>
+        <p class="opinion-glyph">&asymp;</p>
+      </div>
+      <div class="member like-value-3" id="member-4-opinion">
+        <p>member 4</p>
+        <p class="opinion-glyph">&#9746;</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="member-section">
+    <div class="member-profile " id="member-profile-1">
+       <h1 class="member-name">Member 1</h1>
+       <h2>Likes</h2>
+       <div class="member-likes">
+         
+       </div>
+       <h2>Will Eat</h2>
+       <div class="member-will-eat">
+         
+       </div>
+       <h2>Dislikes</h2>
+       <div class="member-dislikes">
+         
+       </div>
+    </div>
+    <div class="member-profile">
+       <h1 class="member-name">Member 2</h1>
+       <h2>Likes</h2>
+       <div class="member-likes">
+         
+       </div>
+       <h2>Will Eat</h2>
+       <div class="member-will-eat">
+         
+       </div>
+       <h2>Dislikes</h2>
+       <div class="member-dislikes">
+         
+       </div>
+    </div>
+    <div class="member-profile">
+       <h1 class="member-name">Member 3</h1>
+       <h2>Likes</h2>
+       <div class="member-likes">
+         
+       </div>
+       <h2>Will Eat</h2>
+       <div class="member-will-eat">
+         
+       </div>
+       <h2>Dislikes</h2>
+       <div class="member-dislikes">
+         
+       </div>
+    </div>
+    <div class="member-profile">
+       <h1 class="member-name">Member 4</h1>
+       <h2>Likes</h2>
+       <div class="member-likes">
+         
+       </div>
+       <h2>Will Eat</h2>
+       <div class="member-will-eat">
+         
+       </div>
+       <h2>Dislikes</h2>
+       <div class="member-dislikes">
+         
+       </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+</div>
+<script src="js/script.js" charset="utf-8"></script>
+</body>
 </html>
 
