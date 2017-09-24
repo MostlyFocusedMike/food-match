@@ -45,6 +45,10 @@ $std-border: 2px solid black;
       }
     }
   }
+  button#categorize-food {
+    display: block;
+    margin: 1rem auto;
+  }
 }
 
 #member-section {

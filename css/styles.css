@@ -34,6 +34,9 @@
         pointer-events: none; }
       #match-finder #member-opinions .member-opinion p {
         pointer-events: none; }
+  #match-finder button#categorize-food {
+    display: block;
+    margin: 1rem auto; }
 
 #member-section {
   border: 2px solid black;
