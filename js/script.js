@@ -5,35 +5,30 @@
 (function () {
     function changeLikeValue(e) {
         var elId = e.target.id,
-        likeValClass = document.getElementById(elId).classList.item(1),
-        newLikeVal = parseInt(likeValClass.slice(-1)) + 1,
-        newLikeValClass, icon;
-        if (newLikeVal === 4) {
-          newLikeVal = 0
-        }
-        newLikeValClass = likeValClass.slice(0, -1) + newLikeVal;
-        document.getElementById(elId).classList.remove(likeValClass);
-        document.getElementById(elId).classList.add(newLikeValClass);
-            
-        switch(newLikeValClass) {
-            case "like-value-0":
+            likeVal = document.getElementById(elId).classList.item(1),
+            newLikeVal;    
+
+        switch(likeVal) {
+            case "dislike":
                  //selects the first child element whith tag i
-                icon = document.querySelector("#" + elId + " > i");
-                icon.textContent = "help_outline"; 
+                newLikeVal = "unknown";
+                icon = document.querySelector("#" + elId + " > i").textContent = "help_outline"; 
                 break;
-            case "like-value-1":
-                icon = document.querySelector("#" + elId + " > i");
-                icon.textContent = "thumb_up"; 
+            case "unknown":
+                newLikeVal = "like";
+                icon = document.querySelector("#" + elId + " > i").textContent = "thumb_up"; 
                 break;
-            case "like-value-2":
-                icon = document.querySelector("#" + elId + " > i");
-                icon.textContent = "thumbs_up_down"; 
+            case "like":
+                newLikeVal = "will-eat";
+                icon = document.querySelector("#" + elId + " > i").textContent = "thumbs_up_down"; 
                 break;
-            case "like-value-3":
-                icon = document.querySelector("#" + elId + " > i");
-                icon.textContent = "thumb_down"; 
+            case "will-eat":
+                newLikeVal = "dislike";
+                icon = document.querySelector("#" + elId + " > i").textContent = "thumb_down"; 
                 break;
         }
+        document.getElementById(elId).classList.remove(likeVal);
+        document.getElementById(elId).classList.add(newLikeVal);
        
     }
 
@@ -53,19 +48,19 @@
                 }
             }
             switch(likeValue) {
-                case "like-value-0": //uknown
+                case "unknown": //uknown
                     break;
-                case "like-value-1": //like
+                case "like": //like
                     users[user].likes.unshift(food);
                     console.log(user);
                     console.log(users[user]);
                     break;
-                case "like-value-2": //will eat
+                case "will-eat": //will eat
                     users[user].willEats.unshift(food);
                     console.log(user);
                     console.log(users[user]);
                     break;
-                case "like-value-3": //dislike
+                case "dislike": //dislike
                     users[user].dislikes.unshift(food);
                     console.log(user);
                     console.log(users[user]);

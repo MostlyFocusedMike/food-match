@@ -34,7 +34,7 @@ $std-border: 2px solid black;
       border: $std-border;
       width: 10rem;
       .material-icons {
-        margin: .25rem 0 0;
+        margin:  0 0 .25rem;
         display: block;
         height: 1rem;
         font-size: 1.5rem;
@@ -42,6 +42,8 @@ $std-border: 2px solid black;
       }
       p {
         pointer-events: none;
+        display: block;
+        width: auto;
       }
     }
   }
@@ -64,19 +66,19 @@ $std-border: 2px solid black;
 
 }
 
-.like-value-0 {
+.unknown {
   background-color: #555;
   color: white;
 }
-.like-value-1 {
+.like {
   background-color: #21D578;
   color: white;
 }
-.like-value-2 {
+.will-eat {
   background-color: #FCFF3B;
   color: black;
 }
-.like-value-3 {
+.dislike {
   background-color: #DF2020;
   color: white;
 }
