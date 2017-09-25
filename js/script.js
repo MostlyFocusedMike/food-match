@@ -12,31 +12,31 @@
             case "dislike":
                  //selects the first child element whith tag i
                 newLikeVal = "unknown";
-                icon = document.querySelector("#" + elId + " > i").textContent = "help_outline"; 
+                //icon = document.querySelector("#" + elId + " > i").textContent = "help_outline"; 
                 break;
             case "unknown":
                 newLikeVal = "like";
-                icon = document.querySelector("#" + elId + " > i").textContent = "thumb_up"; 
+                //icon = document.querySelector("#" + elId + " > i").textContent = "thumb_up"; 
                 break;
             case "like":
                 newLikeVal = "will-eat";
-                icon = document.querySelector("#" + elId + " > i").textContent = "thumbs_up_down"; 
+                //icon = document.querySelector("#" + elId + " > i").textContent = "thumbs_up_down"; 
                 break;
             case "will-eat":
                 newLikeVal = "dislike";
-                icon = document.querySelector("#" + elId + " > i").textContent = "thumb_down"; 
+               // icon = document.querySelector("#" + elId + " > i").textContent = "thumb_down"; 
                 break;
         }
         document.getElementById(elId).classList.remove(likeVal);
         document.getElementById(elId).classList.add(newLikeVal);
-       
     }
+    
 
-    function categorizeFood(users, e) {
+    function categorizeFood(users, knownFoods, e) {
         var food = document.getElementById("query-item").value;
+        knownFoods.unshift(food);
         for (var user in users){
-            likeValue = document.getElementById(user + "-opinion").classList[1];
-            
+            likeValue = document.getElementById(user + "-opinion").classList.item(1);
             //if the food is already in an opinion list, it gets removed so that it can be
             //reassigned to a new list
             //This is easier than going back after and checking for duplicates in multiple
@@ -67,40 +67,31 @@
                     break;
             }
 
-        }
-
+        } 
     } 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-      /*
-        var elId = e.target.id;
-        var username = document.querySelector("#" + elId + " > p").textContent;
+
+    function checkPreferences(knownFoods, users, e) {
         var food = document.getElementById("query-item").value;
-        users[username].likes.unshift(food);
-        window.alert(users[username].likes[0]);
-        */
-
-
-
-
-
-    
-    //OOOpkp var users = {
-            //carol: {
-             //   likes: ["ham", "cheese", "bread"],
-             //   dislikes: ["garlic"]
-          //  }
-       // }
-
+        for (var user in users) {
+            var memberOpinion = document.getElementById(user + "-opinion");
+            var oldLikeVal = memberOpinion.classList.item(1);
+            var newLikeVal = "unknown";
+            if (users[user].likes.indexOf(food) > -1) {
+                newLikeVal = "like";
+            } else if (users[user].willEats.indexOf(food) > -1) {
+                newLikeVal = "will-eat";
+            } else if (users[user].dislikes.indexOf(food) > -1) {
+                newLikeVal = "dislike";
+            }
+            memberOpinion.classList.replace(oldLikeVal, newLikeVal);
+         }
+    }
 //////////////////////////////////////////////////////////////////////////////////
+    
+    var originalOpinions = document.getElementById("member-opinions").cloneNode();
+    var originalState = true;
+
+    var knownFoods = [];
     var users = {
         carol: {
             likes: [],
@@ -123,6 +114,7 @@
             dislikes: [] 
         }
     };
+    //(function () {resetOpinions()}());
     var memberOpinions = document.getElementsByClassName("member-opinion");
     for (var i=0; i <memberOpinions.length; i++) {
         memberOpinions[i].addEventListener("click", function(e) {
@@ -132,7 +124,14 @@
     }
     var sortFoodButton = document.getElementById("categorize-food");
     sortFoodButton.addEventListener("click", function(e) {
-        categorizeFood(users, e);
+        categorizeFood(users, knownFoods, e);
+
+    }, false);
+    var foodInput = document.getElementById("query-item");
+    foodInput.addEventListener("keyup", function(e) {
+        checkPreferences(knownFoods, users, e); 
+
+
 
     }, false);
 
