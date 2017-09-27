@@ -19,10 +19,10 @@
                 //icon = document.querySelector("#" + elId + " > i").textContent = "thumb_up"; 
                 break;
             case "like":
-                newLikeVal = "will-eat";
+                newLikeVal = "okay";
                 //icon = document.querySelector("#" + elId + " > i").textContent = "thumbs_up_down"; 
                 break;
-            case "will-eat":
+            case "okay":
                 newLikeVal = "dislike";
                // icon = document.querySelector("#" + elId + " > i").textContent = "thumb_down"; 
                 break;
@@ -55,8 +55,8 @@
                     console.log(user);
                     console.log(users[user]);
                     break;
-                case "will-eat": //will eat
-                    users[user].willEats.unshift(food);
+                case "okay": //will eat
+                    users[user].okays.unshift(food);
                     console.log(user);
                     console.log(users[user]);
                     break;
@@ -78,13 +78,31 @@
             var newLikeVal = "unknown";
             if (users[user].likes.indexOf(food) > -1) {
                 newLikeVal = "like";
-            } else if (users[user].willEats.indexOf(food) > -1) {
-                newLikeVal = "will-eat";
+            } else if (users[user].okays.indexOf(food) > -1) {
+                newLikeVal = "okay";
             } else if (users[user].dislikes.indexOf(food) > -1) {
                 newLikeVal = "dislike";
             }
             memberOpinion.classList.replace(oldLikeVal, newLikeVal);
          }
+    }
+
+    function displayPreferences(users) {
+        for (user in users) {
+            var section = ["likes", "okays", "dislikes"];
+            for (var s=0; s < 3; s++) {//section length is set at 3
+                var specificSection = section[s];
+                var domSection = document.querySelector("#" + user + "-profile > .member-" + specificSection);
+                domSection.innerHTML = "";
+                var specificList = users[user][specificSection];
+                for (var i = 0; i < specificList.length; i++) {
+                    var newDiv = document.createElement("div");
+                    newDiv.innerHTML = "<p>" + specificList[i] + "</p>" + "<button class='expand-pref'>+</button>"
+                    newDiv.className = "food-opinion";
+                    domSection.appendChild(newDiv);
+                }
+            }
+        }
     }
 //////////////////////////////////////////////////////////////////////////////////
     
@@ -95,22 +113,22 @@
     var users = {
         carol: {
             likes: [],
-            willEats: [],
+            okays: [],
             dislikes: [] 
         },
         ray: {
             likes: [],
-            willEats: [],
+            okays: [],
             dislikes: [] 
         },
         bob: {
             likes: [],
-            willEats: [],
+            okays: [],
             dislikes: [] 
         },
         jim: {
             likes: [],
-            willEats: [],
+            okays: [],
             dislikes: [] 
         }
     };
@@ -125,7 +143,7 @@
     var sortFoodButton = document.getElementById("categorize-food");
     sortFoodButton.addEventListener("click", function(e) {
         categorizeFood(users, knownFoods, e);
-
+        displayPreferences(users);
     }, false);
     var foodInput = document.getElementById("query-item");
     foodInput.addEventListener("keyup", function(e) {

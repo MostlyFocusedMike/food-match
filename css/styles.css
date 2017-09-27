@@ -47,7 +47,10 @@
   #member-section .member-profile {
     border: 2px solid black;
     padding: 1rem;
-    margin: 1rem; }
+    margin: 1rem;
+    width: 10rem; }
+    #member-section .member-profile p, #member-section .member-profile button {
+      display: inline; }
 
 .unknown {
   background-color: #555;
@@ -57,7 +60,7 @@
   background-color: #21D578;
   color: white; }
 
-.will-eat {
+.okay {
   background-color: #FCFF3B;
   color: black; }
 
