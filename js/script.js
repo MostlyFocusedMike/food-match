@@ -1,108 +1,149 @@
 /*jslint plusplus: true*/
 /*jslint white: true*/
 /*globals $:false */
-
+// user should refer to the account owner, and member refer to each of the profiles (mom is the user, her family are members 
 (function () {
     function changeLikeValue(e) {
         var elId = e.target.id,
-            likeVal = document.getElementById(elId).classList.item(1),
+            likeVal = document.getElementById(elId).classList.item(0),
             newLikeVal;    
 
         switch(likeVal) {
             case "dislike":
-                 //selects the first child element whith tag i
                 newLikeVal = "unknown";
-                //icon = document.querySelector("#" + elId + " > i").textContent = "help_outline"; 
                 break;
             case "unknown":
                 newLikeVal = "like";
-                //icon = document.querySelector("#" + elId + " > i").textContent = "thumb_up"; 
                 break;
             case "like":
-                newLikeVal = "okay";
-                //icon = document.querySelector("#" + elId + " > i").textContent = "thumbs_up_down"; 
+                newLikeVal = "tolerates";
                 break;
-            case "okay":
+            case "tolerates":
                 newLikeVal = "dislike";
-               // icon = document.querySelector("#" + elId + " > i").textContent = "thumb_down"; 
                 break;
         }
-        document.getElementById(elId).classList.remove(likeVal);
-        document.getElementById(elId).classList.add(newLikeVal);
+        document.getElementById(elId).classList.replace(likeVal, newLikeVal);
     }
     
 
-    function categorizeFood(users, knownFoods, e) {
-        var food = document.getElementById("query-item").value;
+    function categorizeFood(members, knownFoods, e) {
+        var food = document.getElementById("query-item").value.trim();
         knownFoods.unshift(food);
-        for (var user in users){
-            likeValue = document.getElementById(user + "-opinion").classList.item(1);
+        for (var member in members){
+            likeValue = document.getElementById(member + "-opinion").classList.item(0);
             //if the food is already in an opinion list, it gets removed so that it can be
             //reassigned to a new list
             //This is easier than going back after and checking for duplicates in multiple
             //lists, then deciding which one should stay and which should get deleted
-            for (var opinion in users[user]) {
-                var opinionIndex = users[user][opinion].indexOf(food);
+            for (var opinion in members[member]) {
+                var opinionIndex = members[member][opinion].indexOf(food);
                 if (opinionIndex > -1) {
-                    users[user][opinion].splice(opinionIndex, 1);
+                    members[member][opinion].splice(opinionIndex, 1);
                 }
             }
             switch(likeValue) {
                 case "unknown": //uknown
                     break;
                 case "like": //like
-                    users[user].likes.unshift(food);
-                    console.log(user);
-                    console.log(users[user]);
+                    members[member].likes.unshift(food);
+                    console.log(member);
+                    console.log(members[member]);
                     break;
-                case "okay": //will eat
-                    users[user].okays.unshift(food);
-                    console.log(user);
-                    console.log(users[user]);
+                case "tolerates": //will eat
+                    members[member].tolerates.unshift(food);
+                    console.log(member);
+                    console.log(members[member]);
                     break;
                 case "dislike": //dislike
-                    users[user].dislikes.unshift(food);
-                    console.log(user);
-                    console.log(users[user]);
+                    members[member].dislikes.unshift(food);
+                    console.log(member);
+                    console.log(members[member]);
                     break;
             }
 
         } 
     } 
 
-    function checkPreferences(knownFoods, users, e) {
-        var food = document.getElementById("query-item").value;
-        for (var user in users) {
-            var memberOpinion = document.getElementById(user + "-opinion");
-            var oldLikeVal = memberOpinion.classList.item(1);
+
+    function changeOpinionColors(food, buttonType, knownFoods, members, e) {
+        if (food === "0-query") {
+            var food = document.getElementById("query-item").value;
+        }
+        for (var member in members) {
+            var memberOpinion = document.getElementById(member + buttonType); 
+            var oldLikeVal = memberOpinion.classList.item(0);
             var newLikeVal = "unknown";
-            if (users[user].likes.indexOf(food) > -1) {
+            if (members[member].likes.indexOf(food) > -1) {
                 newLikeVal = "like";
-            } else if (users[user].okays.indexOf(food) > -1) {
-                newLikeVal = "okay";
-            } else if (users[user].dislikes.indexOf(food) > -1) {
+            } else if (members[member].tolerates.indexOf(food) > -1) {
+                newLikeVal = "tolerates";
+            } else if (members[member].dislikes.indexOf(food) > -1) {
                 newLikeVal = "dislike";
             }
             memberOpinion.classList.replace(oldLikeVal, newLikeVal);
          }
     }
 
-    function displayPreferences(users) {
-        for (user in users) {
-            var section = ["likes", "okays", "dislikes"];
+
+    function showMemberChoices(members) {
+        for (member in members) {
+            var sections = ["likes", "tolerates", "dislikes"];
             for (var s=0; s < 3; s++) {//section length is set at 3
-                var specificSection = section[s];
-                var domSection = document.querySelector("#" + user + "-profile > .member-" + specificSection);
+                var specificSection = sections[s];
+                var domSection = document.querySelector("#" + member + "-profile > .member-" + specificSection);
                 domSection.innerHTML = "";
-                var specificList = users[user][specificSection];
+                var specificList = members[member][specificSection];
                 for (var i = 0; i < specificList.length; i++) {
+                    var foodText = specificList[i].replace(/ /g, "-")
                     var newDiv = document.createElement("div");
-                    newDiv.innerHTML = "<p>" + specificList[i] + "</p>" + "<button class='expand-pref'>+</button>"
-                    newDiv.className = "food-opinion";
-                    domSection.appendChild(newDiv);
+                    var newButton = document.createElement("button");
+                    newButton.className = "expand-pref";
+                    newButton.innerHTML = "+";
+                    newButton.addEventListener("click", function(e) {
+                        expandMemberChoices(members, e);
+                    }, false);
+                    newDiv.innerHTML = "<div class='food-choice'><p>" + specificList[i] + "</p>" + "</div>"
+                    newDiv.appendChild(newButton);
+                    newDiv.className =  foodText + " choice"; //to show diferences, the preferences are called opinions when set, but choices when in profiles 
+                                        domSection.appendChild(newDiv);
                 }
             }
+         }
+    }
+
+
+    function expandMemberChoices(members, e) {
+        var foodChoice = e.target;
+        var foodParent = foodChoice.parentNode;
+        var foodClass = foodParent.classList.item(0);
+        var foodText = foodClass.replace(/-/g, " ");
+        var choicesPopOut = document.createElement("div");
+        choicesPopOut.innerHTML = '<button id="close-pop-out">X</button><div id="choices"></div><button class="save-tastes">Save Tastes</button>';
+        foodParent.appendChild(choicesPopOut);
+        document.getElementById("close-pop-out").addEventListener("click", function(e) {
+            closePopOut(e);
+
+        }, false);
+        for (member in members) {
+            var newButton = document.createElement("button");
+            newButton.className = "unknown member-opinion";
+            newButton.id = member + "-opinion-pop-out";
+            newButton.innerHTML = member;
+            newButton.addEventListener("click", function(e) {
+                changeLikeValue(e);
+            }, false); 
+            document.getElementById("choices").appendChild(newButton);
         }
+        alert(foodText);
+        changeOpinionColors(foodText, "-opinion-pop-out", knownFoods, members, e); 
+    }
+    
+    
+    function closePopOut(e) {
+        var target = e.target.parentNode;
+        target.innerHTML = "";
+
+
     }
 //////////////////////////////////////////////////////////////////////////////////
     
@@ -110,46 +151,44 @@
     var originalState = true;
 
     var knownFoods = [];
-    var users = {
+    var members = {
         carol: {
             likes: [],
-            okays: [],
+            tolerates: [],
             dislikes: [] 
         },
         ray: {
             likes: [],
-            okays: [],
+            tolerates: [],
             dislikes: [] 
         },
         bob: {
             likes: [],
-            okays: [],
+            tolerates: [],
             dislikes: [] 
         },
         jim: {
             likes: [],
-            okays: [],
+            tolerates: [],
             dislikes: [] 
         }
     };
     //(function () {resetOpinions()}());
     var memberOpinions = document.getElementsByClassName("member-opinion");
-    for (var i=0; i <memberOpinions.length; i++) {
+    for (var i=0; i < memberOpinions.length; i++) {
         memberOpinions[i].addEventListener("click", function(e) {
             changeLikeValue(e);
         }, false);
-
     }
     var sortFoodButton = document.getElementById("categorize-food");
     sortFoodButton.addEventListener("click", function(e) {
-        categorizeFood(users, knownFoods, e);
-        displayPreferences(users);
+        categorizeFood(members, knownFoods, e);
+        showMemberChoices(members);
     }, false);
     var foodInput = document.getElementById("query-item");
+    var food = document.getElementById("query-item").value;
     foodInput.addEventListener("keyup", function(e) {
-        checkPreferences(knownFoods, users, e); 
-
-
+        changeOpinionColors("0-query", "-opinion", knownFoods, members, e); 
 
     }, false);
 
